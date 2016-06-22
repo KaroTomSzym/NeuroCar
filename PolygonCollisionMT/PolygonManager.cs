@@ -63,13 +63,42 @@ namespace PolygonCollisionMT
             _polygons.Add(p);
         }
 
+        public List<Polygon> getPolygonList()
+        {
+            List<Polygon> returnList = new List<Polygon>();
+
+            running = false;
+            foreach (Polygon p in _polygons)
+            {
+                returnList.Add(p.getClone());
+            }
+            running = true;
+            return returnList;
+
+        }
+
+        public List<Polygon> getPolygonBeforeMoveList()
+        {
+            List<Polygon> returnList = new List<Polygon>();
+
+            running = false;
+            foreach (Polygon p in _polygonsBeforeMove)
+            {
+                returnList.Add(p.getClone());
+            }
+            running = true;
+            return returnList;
+
+        }
+
         public List<Point[]> getPolygonsPointsList()
         {
+            List<Polygon> polygonsClone = getPolygonList();
             List<Point[]> polygonsPointsList = new List<Point[]>();
 
             try
             {
-                foreach (Polygon p in _polygons)
+                foreach (Polygon p in polygonsClone)
                 {
                     polygonsPointsList.Add(p.getPointsTable());
                 }
@@ -85,11 +114,12 @@ namespace PolygonCollisionMT
 
         public List<Point[]> getPolygonsBeforeMovePointsList()
         {
+            List<Polygon> polygonsClone = getPolygonBeforeMoveList();
             List<Point[]> polygonsPointsList = new List<Point[]>();
 
             try
             {
-                foreach (Polygon p in _polygonsBeforeMove)
+                foreach (Polygon p in polygonsClone)
                 {
                     polygonsPointsList.Add(p.getPointsTable());
                 }
@@ -113,6 +143,10 @@ namespace PolygonCollisionMT
                 _polygonsBeforeMove = new List<Polygon>(_polygons);
                 foreach (Polygon p in _polygons)
                 {
+                    while (!running)
+                    {
+
+                    }
                     p.shift();
                     p.rotate();
                 }
@@ -129,7 +163,8 @@ namespace PolygonCollisionMT
 
         public void checkObstacleCollison()
         {
-            foreach (Polygon p in _polygons)
+            List<Polygon> polygonsClone = getPolygonList();
+            foreach (Polygon p in polygonsClone)
             {
                 MyVector contactPoint = carPolygon.polygonCollision(p);
                 if (contactPoint[0] != -1)
@@ -232,7 +267,14 @@ namespace PolygonCollisionMT
                 distance = MyMath.distanceBetweenPoints(pv[0], tempVector);
             }
             pv.Add(tempVector);
+
+            while (!running)
+            {
+
+            }
+            running = false;
             this.addPolygon(new Triangle(pv, new MyVector(0, 0)));
+            running = true;
         }
     }
 }

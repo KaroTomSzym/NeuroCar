@@ -36,8 +36,8 @@ namespace PolygonCollisionMT
 
         public Triangle(Polygon previousTriangle)
         {
-            _points = previousTriangle._points;
-            _velocity = previousTriangle._velocity;
+            _points = new PointVector(previousTriangle._points);
+            _velocity = new MyVector(previousTriangle._velocity);
             _angularVelocity = previousTriangle._angularVelocity;
         }
 
@@ -197,6 +197,14 @@ namespace PolygonCollisionMT
         {
             _velocity += velocity*10;
             _points += velocity;
+        }
+
+        public override Polygon getClone()
+        {
+            PointVector pointsClone = new PointVector(_points);
+            MyVector velocityClone = new MyVector(_velocity);
+            Polygon returnPolygon = new Triangle(pointsClone, velocityClone);
+            return returnPolygon;
         }
     }
 }

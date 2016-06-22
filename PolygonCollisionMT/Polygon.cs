@@ -53,6 +53,7 @@ namespace PolygonCollisionMT
             return _points.minCoordinatePoint(dimensionIndex);
         }
 
+
         public abstract Point[] getPointsTable();
         public abstract void shift();
         public abstract void rotate();
@@ -65,8 +66,8 @@ namespace PolygonCollisionMT
 
         public abstract MyVector getForceVector(MyVector contactPoint);
         public abstract void actForce(MyVector contactPoint, MyVector forceVector);
-
-
         public abstract void forward(MyVector velocity);
+
+        public abstract Polygon getClone();
     }
 }

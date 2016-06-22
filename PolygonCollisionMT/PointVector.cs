@@ -79,6 +79,16 @@ namespace PolygonCollisionMT
             _points.Add(mv3);
         }
 
+        public PointVector(PointVector previousPointVector)
+        {
+            _points = new List<MyVector>();
+            for (int i = 0; i < previousPointVector.Length; i++)
+            {
+                MyVector tempPoint = new MyVector(previousPointVector[i]);
+                _points.Add(tempPoint);
+            }
+        }
+
         public MyVector this[int index]
         {
             get

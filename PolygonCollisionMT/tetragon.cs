@@ -200,5 +200,13 @@ namespace PolygonCollisionMT
             _velocity += velocity * 10;
             _points += velocity;
         }
+
+        public override Polygon getClone()
+        {
+            PointVector pointsClone = new PointVector(_points);
+            //MyVector velocityClone = new MyVector(_velocity);
+            Polygon returnPolygon = new Tetragon(pointsClone);
+            return returnPolygon;
+        }
     }
 }

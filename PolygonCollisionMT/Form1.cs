@@ -109,11 +109,12 @@ namespace PolygonCollisionMT
                 {
                     Point[] polygonToDraw = polygonsToDraw[i];
                     Point[] polygonToErase = polygonsToErase[i];
-                    canvas.DrawLines(new Pen(Color.Red), polygonToDraw);
+                    
                     if (checkIfMoved(polygonToDraw, polygonToErase))
                     {
                         canvas.DrawLines(new Pen(Color.White), polygonToErase);
                     }
+                    canvas.DrawLines(new Pen(Color.Red), polygonToDraw);
                 }
                 //foreach (Point[] p in polygonsToErase)
                 //{

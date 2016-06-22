@@ -25,12 +25,12 @@ namespace PolygonCollisionMT
             _vector = new List<double>();
         }
 
-        public MyVector(MyVector vector)
+        public MyVector(MyVector previousVector)
         {
             _vector = new List<double>();
-            for (int i = 0; i < vector.Length; i++)
+            for (int i = 0; i < previousVector.Length; i++)
             {
-                _vector.Add(vector[i]);
+                _vector.Add(previousVector[i]);
             }
         }
 
@@ -82,23 +82,30 @@ namespace PolygonCollisionMT
             return p;
         }
 
-        //outofindex
         public double this[int index]
         {
             get
             {
+                if (index >= Length)
+                    throw new IndexOutOfRangeException();
+
                 return this._vector[index];
             }
             set
             {
+                if (index >= Length)
+                    throw new IndexOutOfRangeException();
+
                 this._vector[index] = value;
             }
 
         }
 
-        //l1 != l2 exception
         public static MyVector operator +(MyVector v1, MyVector v2)
         {
+            if (v1.Length != v2.Length)
+                throw new FormatException();
+
             MyVector result = new MyVector();
             for (int i = 0; i < v1.Length; i++)
             {
