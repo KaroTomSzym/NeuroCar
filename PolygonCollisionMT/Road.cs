@@ -20,7 +20,7 @@ namespace PolygonCollisionMT
         {
             _polygons = new List<Polygon>();
             VisiblePolygons = new List<Polygon>();
-            VisibleArea = new Area(300, 400);
+            VisibleArea = new Area(300, 440);
             Length = length;
             Car = new Car();
             _random = new Random();
@@ -54,7 +54,7 @@ namespace PolygonCollisionMT
             Point[] points = polygon.getPointsTable();
             for (int i = 0; i < points.Length; i++)
             {
-                if (pointIsInsideVisibleArea(points[0]))
+                if (pointIsInsideVisibleArea(points[i]))
                     return true;
             }
             return false;
