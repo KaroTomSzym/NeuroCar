@@ -15,7 +15,6 @@ namespace PolygonCollisionMT
         private int _boundaryX;
         private int _boundaryY;
         private Thread PolygonManagerThread;
-        private Random _random;
         private bool running;
         public Polygon carPolygon;
         public Polygon carPolygonBeforeMove;
@@ -33,7 +32,6 @@ namespace PolygonCollisionMT
             carPolygon = car;
             lastForce = new MyVector(0,0);
             //
-            _random = new Random();
         }
 
         public void threadAction(object data)
@@ -242,39 +240,6 @@ namespace PolygonCollisionMT
             //}        
         }
 
-        public void addRandomPolygonToList(int minPosition, int maxPosition)
-        {
-            PointVector pv = new PointVector();
-            double r1, tempX, tempY;
-            int avgSideLength = 50;
-            int x1 = _random.Next(minPosition, maxPosition);
-            int x2 = _random.Next(minPosition, maxPosition);
 
-            pv.Add(new MyVector(x1, x2));
-            r1 = _random.Next(0, 360);
-            x1 = x1 + (int)(avgSideLength * Math.Cos(r1));
-            x2 = x2 + (int)(avgSideLength * Math.Sin(r1));
-            pv.Add(new MyVector(x1, x2));
-
-            MyVector tempVector = new MyVector(x1, x2);
-            double distance = 0;
-            while(distance < avgSideLength*0.8 || distance > avgSideLength*1.2)
-            {
-                r1 = _random.Next(0, 360);
-                tempX = x1 + (int)(avgSideLength * Math.Cos(r1));
-                tempY = x2 + (int)(avgSideLength * Math.Sin(r1));
-                tempVector = new MyVector(tempX, tempY);
-                distance = MyMath.distanceBetweenPoints(pv[0], tempVector);
-            }
-            pv.Add(tempVector);
-
-            while (!running)
-            {
-
-            }
-            running = false;
-            this.addPolygon(new Triangle(pv, new MyVector(0, 0)));
-            running = true;
-        }
     }
 }

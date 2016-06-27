@@ -12,9 +12,11 @@ namespace PolygonCollisionMT
 {
     public partial class Form1 : Form
     {
-        Graphics canvas;
-        PolygonManager PolygonMng;
-        Car Car;
+        Graphics _canvas;
+        PolygonManager _polygonMng;
+        Car _car;
+        List<Point[]> _polygonsToErase;
+        Road _road;
 
         //protected override CreateParams CreateParams // nie miga
         //{
@@ -29,25 +31,27 @@ namespace PolygonCollisionMT
         public Form1()
         {
             InitializeComponent();
-            canvas = splitContainer1.Panel2.CreateGraphics();
+            _canvas = splitContainer1.Panel2.CreateGraphics();
             int boundaryX = splitContainer1.Panel2.Width;
             int boundaryY = splitContainer1.Panel2.Height;
-            Car = new Car();
+            _car = new Car();
             //
             PointVector pv = new PointVector((double)numericUpDown1.Value, (double)numericUpDown2.Value, (double)numericUpDown3.Value, (double)numericUpDown4.Value, (double)numericUpDown5.Value, (double)numericUpDown6.Value);
 
             MyVector velocity = new MyVector(1,-1);
 
-            Car.carShape = new Triangle(pv, velocity);
+            _car.carShape = new Triangle(pv, velocity);
             //
-            PolygonMng = new PolygonManager(boundaryX, boundaryY, Car.carShape);
+            _polygonMng = new PolygonManager(boundaryX, boundaryY, _car.carShape);
 
-            PolygonMng.addRandomPolygonToList(0, 200);
+            _polygonMng.addRandomPolygonToList(0, 200);
+
+            _polygonsToErase = new List<Point[]>();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            canvas.Clear(Color.White);
+            _canvas.Clear(Color.White);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -56,20 +60,20 @@ namespace PolygonCollisionMT
 
             MyVector velocity = new MyVector(0,0);
 
-            Car.carShape = new Triangle(pv, velocity);
+            _car.carShape = new Triangle(pv, velocity);
             //PolygonMng.addPolygon(Car);
             //CarControl = new CarControler(Car);
 
             MyVector obstacleVec = new MyVector(0, 69);
             pv += obstacleVec;
-            PolygonMng.addPolygon(new Triangle(pv, velocity));
+            _polygonMng.addPolygon(new Triangle(pv, velocity));
             pv += obstacleVec; pv += obstacleVec;
             pv += obstacleVec;
-            PolygonMng.addPolygon(new Triangle(pv, velocity));
+            _polygonMng.addPolygon(new Triangle(pv, velocity));
 
             obstacleVec = new MyVector(69, 0);
             pv += obstacleVec;
-            PolygonMng.addPolygon(new Triangle(pv, velocity));
+            _polygonMng.addPolygon(new Triangle(pv, velocity));
 
             MyVector p1 = new MyVector(50, 50);
             MyVector p2 = new MyVector(89, 110);
@@ -81,20 +85,20 @@ namespace PolygonCollisionMT
             tetra.Add(p3);
             tetra.Add(p4);
             Tetragon tetragon = new Tetragon(tetra);
-            PolygonMng.addPolygon(tetragon);
+            _polygonMng.addPolygon(tetragon);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            PolygonMng.addRandomPolygonToList(0, 200);
-            PolygonMng.movePolygons();
+            _road.addRandomPolygonToList(0, 200);
+            _polygonMng.movePolygons();
         }
 
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             drawPolygons();
-            textBox1.Text = PolygonMng.lastForce.ToString();
+            textBox1.Text = _polygonMng.lastForce.ToString();
             Invalidate();
         }
 
@@ -102,20 +106,27 @@ namespace PolygonCollisionMT
         {
             try
             {
-                List<Point[]> polygonsToDraw = PolygonMng.getPolygonsPointsList();
-                List<Point[]> polygonsToErase = PolygonMng.getPolygonsBeforeMovePointsList();
+
+                List<Point[]> polygonsToDraw = _polygonMng.getPolygonsPointsList();
+                
+                //List<Point[]> polygonsToErase = PolygonMng.getPolygonsBeforeMovePointsList();
                 //canvas.Clear(Color.White);
-                for (int i = 0; i < polygonsToDraw.Count; i++)
+
+                foreach (Point[] e in _polygonsToErase)
                 {
-                    Point[] polygonToDraw = polygonsToDraw[i];
-                    Point[] polygonToErase = polygonsToErase[i];
-                    
-                    if (checkIfMoved(polygonToDraw, polygonToErase))
-                    {
-                        canvas.DrawLines(new Pen(Color.White), polygonToErase);
-                    }
-                    canvas.DrawLines(new Pen(Color.Red), polygonToDraw);
+                    _canvas.DrawLines(new Pen(Color.White), e);
                 }
+
+                foreach (Point[] p in polygonsToDraw)
+                {
+                    _canvas.DrawLines(new Pen(Color.Red), p);
+                }
+
+
+                               
+
+                _polygonsToErase = polygonsToDraw;
+                
                 //foreach (Point[] p in polygonsToErase)
                 //{
                 //    canvas.DrawLines(new Pen(Color.White), p);
@@ -144,7 +155,7 @@ namespace PolygonCollisionMT
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            PolygonMng.stopThread();
+            _polygonMng.stopThread();
         }
 
         private void button2_KeyPress(object sender, KeyPressEventArgs e)
