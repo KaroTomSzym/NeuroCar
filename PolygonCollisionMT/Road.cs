@@ -18,6 +18,8 @@ namespace PolygonCollisionMT
 
         public Road(int length)
         {
+            _polygons = new List<Polygon>();
+            VisiblePolygons = new List<Polygon>();
             VisibleArea = new Area(300, 400);
             Length = length;
             Car = new Car();
@@ -65,18 +67,21 @@ namespace PolygonCollisionMT
             return false;
         }
 
-        private void generatePolygons(int n)
+        public void generatePolygons(int n)
         {
-
+            for (int i = 0; i < n; i++)
+            {
+                addRandomPolygonToList(0,300,0,Length);
+            }
         }
 
-        public void addRandomPolygonToList(int minPosition, int maxPosition)
+        public void addRandomPolygonToList(int minPositionX, int maxPositionX, int minPositionY, int maxPositionY)
         {
             PointVector pv = new PointVector();
             double r1, tempX, tempY;
             int avgSideLength = 50;
-            int x1 = _random.Next(minPosition, maxPosition);
-            int x2 = _random.Next(minPosition, maxPosition);
+            int x1 = _random.Next(minPositionX, maxPositionX);
+            int x2 = _random.Next(minPositionY, maxPositionY);
 
             pv.Add(new MyVector(x1, x2));
             r1 = _random.Next(0, 360);

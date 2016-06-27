@@ -33,19 +33,21 @@ namespace PolygonCollisionMT
             InitializeComponent();
             _canvas = splitContainer1.Panel2.CreateGraphics();
             int boundaryX = splitContainer1.Panel2.Width;
-            int boundaryY = splitContainer1.Panel2.Height;
+            int roadLength = 10000;
             _car = new Car();
             //
             PointVector pv = new PointVector((double)numericUpDown1.Value, (double)numericUpDown2.Value, (double)numericUpDown3.Value, (double)numericUpDown4.Value, (double)numericUpDown5.Value, (double)numericUpDown6.Value);
 
-            MyVector velocity = new MyVector(1,-1);
+            MyVector velocity = new MyVector(1,1);
 
             _car.carShape = new Triangle(pv, velocity);
             //
-            _polygonMng = new PolygonManager(boundaryX, boundaryY, _car.carShape);
+            _polygonMng = new PolygonManager(boundaryX, roadLength, _car.carShape);
 
-            _polygonMng.addRandomPolygonToList(0, 200);
+            _road = new Road(roadLength);
+            _road.generatePolygons(100);
 
+            _polygonMng.setPolygonList(_road.getVisiblePolygons());
             _polygonsToErase = new List<Point[]>();
         }
 
@@ -90,16 +92,28 @@ namespace PolygonCollisionMT
 
         private void button3_Click(object sender, EventArgs e)
         {
-            _road.addRandomPolygonToList(0, 200);
+            _road.addRandomPolygonToList(0, 300, _road.VisibleArea.CurrentAreaPosition, _road.VisibleArea.CurrentAreaPosition + 400);
             _polygonMng.movePolygons();
         }
 
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            drawPolygons();
+            _polygonMng.setPolygonList(_road.getVisiblePolygons());
+            //drawPolygons();
+            updateArea();
             textBox1.Text = _polygonMng.lastForce.ToString();
             Invalidate();
+        }
+
+        private void updateArea()
+        {
+            _road.VisibleArea.CurrentAreaPosition = (int)_polygonMng.carPolygon.MassCentre[1] - 300;//(int)_road.Car.carShape.MassCentre[0];
+            drawPolygons();
+            Point[] startLine = new Point[2];
+            startLine[0] = new Point(0, 0 - _road.VisibleArea.CurrentAreaPosition);
+            startLine[1] = new Point(300, 0 - _road.VisibleArea.CurrentAreaPosition);
+            _canvas.DrawLines(new Pen(Color.Black), startLine);
         }
 
         private void drawPolygons()
@@ -108,9 +122,25 @@ namespace PolygonCollisionMT
             {
 
                 List<Point[]> polygonsToDraw = _polygonMng.getPolygonsPointsList();
-                
+                //List<Point[]> tempPolygonsToDrawPositions = new List<Point[]>();
+
+
+                ////ponizej jest kopiowanie tablicy, ale chuja to dziala
+                //for (int i = 0; i < polygonsToDraw.Count; i++)
+                //{
+                //    Point[] tempPolygonPoints = polygonsToDraw[i]; //new Point[polygonsToDraw[i].Length];
+                //    for (int j = 0; j < tempPolygonPoints.Length; j++)
+                //    {
+                //        Point tempPoint = new Point();
+                //        tempPoint.X = tempPolygonPoints[j].X;
+                //        tempPoint.Y = tempPolygonPoints[j].Y;
+                //        tempPolygonPoints[j] = tempPoint;
+                //    }
+                //    tempPolygonsToDrawPositions.Add(tempPolygonPoints);
+                //}
+
                 //List<Point[]> polygonsToErase = PolygonMng.getPolygonsBeforeMovePointsList();
-                //canvas.Clear(Color.White);
+                _canvas.Clear(Color.White);
 
                 foreach (Point[] e in _polygonsToErase)
                 {
@@ -119,10 +149,14 @@ namespace PolygonCollisionMT
 
                 foreach (Point[] p in polygonsToDraw)
                 {
+                    for (int i = 0; i < p.Length; i++)
+			        {
+                        p[i].Y = p[i].Y - _road.VisibleArea.CurrentAreaPosition;// + 400;
+			        }
                     _canvas.DrawLines(new Pen(Color.Red), p);
                 }
 
-
+                
                                
 
                 _polygonsToErase = polygonsToDraw;

@@ -21,7 +21,7 @@ namespace PolygonCollisionMT
         //
         public MyVector lastForce;
         //
-        public PolygonManager(int boundaryX, int boundaryY,Polygon car)
+        public PolygonManager(int boundaryX, int boundaryY, Polygon car)
         {
             _polygons = new List<Polygon>();
             _boundaryX = boundaryX;
@@ -59,6 +59,11 @@ namespace PolygonCollisionMT
         public void addPolygon(Polygon p)
         {
             _polygons.Add(p);
+        }
+
+        public void setPolygonList(List<Polygon> polygons)
+        {
+            _polygons = polygons;
         }
 
         public List<Polygon> getPolygonList()
