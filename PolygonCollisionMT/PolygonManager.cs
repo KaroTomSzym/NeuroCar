@@ -58,24 +58,89 @@ namespace PolygonCollisionMT
 
         public void addPolygon(Polygon p)
         {
+            while (!running)
+            {
+
+            }
+            running = false;
             _polygons.Add(p);
+            running = true;
         }
 
         public void setPolygonList(List<Polygon> polygons)
         {
+            while (!running)
+            {
+
+            }
+            running = false;
             _polygons = polygons;
+            running = true;
         }
+
+        private Polygon getNextPolygon()
+        {
+            while (!running)
+            {
+
+            }
+            running = false;
+            Polygon p;
+            try
+            {
+                p = _polygons[0];
+                _polygons.RemoveAt(0);
+                _polygons.Add(p);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                p = null;
+            }
+            running = true;
+            return p;
+        }
+
+        //public List<Polygon> getPolygonList()
+        //{
+        //    List<Polygon> returnList = new List<Polygon>();
+
+        //    while (!running)
+        //    {
+
+        //    }
+        //    running = false;
+        //    try
+        //    {
+        //        foreach (Polygon p in _polygons)
+        //        {
+        //            returnList.Add(p.getClone());
+        //        }
+        //    }
+        //    catch (InvalidOperationException)
+        //    {
+
+        //    }
+        //    running = true;
+        //    return returnList;
+
+        //}
 
         public List<Polygon> getPolygonList()
         {
             List<Polygon> returnList = new List<Polygon>();
 
-            running = false;
-            foreach (Polygon p in _polygons)
+            for (int i = 0; i < _polygons.Count; i++)
             {
-                returnList.Add(p.getClone());
-            }
-            running = true;
+                Polygon p = getNextPolygon();
+                try
+                {
+                    returnList.Add(p.getClone());
+                }
+                catch (NullReferenceException)
+                {
+
+                }
+            }                 
             return returnList;
 
         }
@@ -143,15 +208,26 @@ namespace PolygonCollisionMT
             checkObstacleCollison();
             try
             {
-                _polygonsBeforeMove = new List<Polygon>(_polygons);
-                foreach (Polygon p in _polygons)
+                //_polygonsBeforeMove = new List<Polygon>(_polygons);
+                _polygonsBeforeMove = getPolygonList();
+                
+                for (int i = 0; i < _polygons.Count; i++)
                 {
+                    Polygon p = getNextPolygon();
                     while (!running)
                     {
 
                     }
-                    p.shift();
-                    p.rotate();
+                    try
+                    {
+                        p.shift();
+                        p.rotate();
+                    }
+                    catch (NullReferenceException)
+                    {
+
+                    }
+
                 }
                 carPolygonBeforeMove = new Triangle(carPolygon);
                 _polygonsBeforeMove.Add(carPolygonBeforeMove);
