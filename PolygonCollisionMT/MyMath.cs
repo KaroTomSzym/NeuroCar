@@ -8,39 +8,10 @@ namespace PolygonCollisionMT
 {
     class MyMath
     {
-        public static Random random = new Random((int)DateTime.Now.Ticks);
-        public static double activationFunction(double x, double beta)
-        {
-            return beta * Math.Tanh(x);
-        }
-        public static MyVector activationFunction(MyVector v, double beta)
-        {
-            MyVector tempMv = new MyVector(v.Length, false);
-            for (int i = 0; i < v.Length; i++)
-            {
-                tempMv[i] = activationFunction(v[i], beta);
-            }
-            return tempMv;
-        }
-        public static int randInt(int a, int b)
-        {
-            int tempR;
-            tempR = random.Next(a, b);
-            return tempR;
-        }
-        public static double randDouble(int a, int b)
-        {
-            double tempR;
-            tempR = random.NextDouble();
-            tempR = a + (b - a) * tempR;
-            return tempR;
-        }
-
         public static MyVector polarRepresentation(MyVector vector)
         {
             double norm = vector.norm();
             double angle;
-
             MyVector normalVec = vector.normalVector();
 
             if (normalVec[0] > 0)

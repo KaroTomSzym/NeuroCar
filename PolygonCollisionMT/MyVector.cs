@@ -11,14 +11,7 @@ namespace PolygonCollisionMT
     public class MyVector
     {
         private List<double> _vector;
-        public List<double> GetVector
-        {
-            get
-            {
-                return _vector;
-            }
 
-        }
         public int Length
         {
             get
@@ -30,11 +23,6 @@ namespace PolygonCollisionMT
         public MyVector()
         {
             _vector = new List<double>();
-        }
-
-        public MyVector(List<double> vec)
-        {
-            _vector = new List<double>(vec);
         }
 
         public MyVector(MyVector previousVector)
@@ -53,33 +41,14 @@ namespace PolygonCollisionMT
             _vector.Add(y);
         }
 
-        public MyVector(int n, bool isRandom)//losowy wektor
+        public MyVector(List<double> vec)
         {
-            _vector = new List<double>();
-            if (isRandom)
-            {
-                for (int i = 0; i < n; i++)
-                {
-                    _vector.Add(MyMath.randInt(-3, 3));
-                }
-            }
-            else
-            {
-                for (int i = 0; i < n; i++)
-                {
-                    _vector.Add(0);
-                }
-            }
+            _vector = vec;
         }
 
         public void Add(double value)
         {
             _vector.Add(value);
-        }
-
-        public void clear()
-        {
-            _vector.Clear();
         }
 
         public double norm()
@@ -165,24 +134,6 @@ namespace PolygonCollisionMT
             return result;
         }
 
-        public static MyVector operator *(MyVector v, MyMatrix m)
-        {
-            MyVector tempMv = new MyVector(m[0].Length, false);
-            if (v.Length == m.RowsNumber)
-            {
-                for (int i = 0; i < m[0].Length; i++)
-                {
-                    for (int j = 0; j < v.Length; j++)
-                        tempMv[i] += (v[j] * m[j][i]);
-                }
-                return tempMv;
-            }
-            else
-            {
-                throw new Exception();
-            }
-        }
-
         public override string ToString()
         {
             
@@ -198,7 +149,5 @@ namespace PolygonCollisionMT
             }
             return s;
         }
-
-
     }
 }
