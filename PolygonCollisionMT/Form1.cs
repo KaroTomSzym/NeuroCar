@@ -100,16 +100,16 @@ namespace PolygonCollisionMT
         private void timer1_Tick(object sender, EventArgs e)
         {
             _polygonMng.setPolygonList(_road.getVisiblePolygons());
-            //drawPolygons();
+            drawPolygons();
             updateArea();
             textBox1.Text = _polygonMng.lastForce.ToString();
-            Invalidate();
+            splitContainer1.Panel2.Invalidate();
+            //Invalidate();
         }
 
         private void updateArea()
         {
             _road.VisibleArea.CurrentAreaPosition = (int)_polygonMng.carPolygon.MassCentre[1] - 300;//(int)_road.Car.carShape.MassCentre[0];
-            drawPolygons();
             Point[] startLine = new Point[2];
             startLine[0] = new Point(0, 0 - _road.VisibleArea.CurrentAreaPosition);
             startLine[1] = new Point(300, 0 - _road.VisibleArea.CurrentAreaPosition);
@@ -140,12 +140,12 @@ namespace PolygonCollisionMT
                 //}
 
                 //List<Point[]> polygonsToErase = PolygonMng.getPolygonsBeforeMovePointsList();
-                _canvas.Clear(Color.White);
+                //_canvas.Clear(Color.White);
 
-                foreach (Point[] e in _polygonsToErase)
-                {
-                    _canvas.DrawLines(new Pen(Color.White), e);
-                }
+                //foreach (Point[] e in _polygonsToErase)
+                //{
+                //    _canvas.DrawLines(new Pen(Color.White), e);
+                //}
 
                 foreach (Point[] p in polygonsToDraw)
                 {
@@ -195,6 +195,11 @@ namespace PolygonCollisionMT
         private void button2_KeyPress(object sender, KeyPressEventArgs e)
         {
 
+        }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+            drawPolygons();
         }
     }
 }
