@@ -44,6 +44,8 @@ namespace PolygonCollisionMT
             //
             _polygonMng = new PolygonManager(boundaryX, roadLength, _car.carShape);
 
+            _car.setPolygonManager(_polygonMng);
+
             _road = new Road(roadLength);
             _road.generatePolygons(100);
 
@@ -115,7 +117,7 @@ namespace PolygonCollisionMT
             Point[] startLine = new Point[2];
             startLine[0] = new Point(0, 0 - _road.VisibleArea.CurrentAreaPosition);
             startLine[1] = new Point(300, 0 - _road.VisibleArea.CurrentAreaPosition);
-            _canvas.DrawLines(new Pen(Color.Black), startLine);
+            _canvas.DrawLines(new Pen(Color.Black), startLine);//jakis error
         }
 
         private void drawPolygons()

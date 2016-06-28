@@ -29,6 +29,7 @@ namespace PolygonCollisionMT
             for (int i = 0; i < radiusNumber; i++)
             {
                 MyVector directionVec = new MyVector(Math.Sin(angleIncrement*i),Math.Cos(angleIncrement*i));
+                _directionVectors.Add(directionVec);
             }
         }
 

@@ -136,12 +136,17 @@ namespace PolygonCollisionMT
 
         public override string ToString()
         {
+            
             string s = "(";
-            for (int i = 0; i < Length-1; i++)
+            
+            if (Length != 0)
             {
-                s += ((int)(this[i]*100))/100 + ", ";
+                for (int i = 0; i < Length - 1; i++)
+                {
+                    s += ((int)(this[i] * 100)) / 100 + ", ";
+                }
+                s += ((int)(this[Length - 1] * 100)) / 100 + ")";
             }
-            s += ((int)(this[Length-1]*100))/100 + ")";
             return s;
         }
     }

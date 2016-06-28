@@ -111,6 +111,7 @@ namespace PolygonCollisionMT
             {
                 _car.control(angle, speed);
             }
+            textBox3.Text = _car.getDistanceVector().ToString();
         }
 
     }

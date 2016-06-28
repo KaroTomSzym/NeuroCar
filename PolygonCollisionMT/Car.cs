@@ -10,7 +10,11 @@ namespace PolygonCollisionMT
     {
         public Triangle carShape { get; set; }
         private MyVector front;
+        RangeFinder rangeFinder;
+        PolygonManager polygonManager;
+        
         double x1 = 100, x2 = 130, x3, y1 = 280, y2 = 280, y3 = 240;
+
         public Car()
         {
             x3 = (x1 + x2) / 2;
@@ -19,6 +23,14 @@ namespace PolygonCollisionMT
 
             carShape = new Triangle(pv, velocity);
             front = carShape[2];
+
+            rangeFinder = new RangeFinder(10, 150, 20);
+
+        }
+
+        public void setPolygonManager(PolygonManager pm)
+        {
+            polygonManager = pm;
         }
 
         public void control(double rotationAngle, double speed)
@@ -27,6 +39,15 @@ namespace PolygonCollisionMT
             carShape.forward(speed);
 
             carShape._angularVelocity += rotationAngle;
+        }
+
+        public MyVector getDistanceVector()
+        {
+            MyVector position = carShape.MassCentre;
+            List<Polygon> polygonsList = polygonManager.getPolygonList();
+
+            return rangeFinder.rangeInAllDirections(position, polygonsList);
+
         }
     }
 }
