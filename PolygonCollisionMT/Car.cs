@@ -9,6 +9,7 @@ namespace PolygonCollisionMT
     public class Car
     {
         public Triangle carShape { get; set; }
+        private MyVector front;
         double x1 = 100, x2 = 130, x3, y1 = 280, y2 = 280, y3 = 240;
         public Car()
         {
@@ -17,6 +18,15 @@ namespace PolygonCollisionMT
             MyVector velocity = new MyVector(0, 0);
 
             carShape = new Triangle(pv, velocity);
+            front = carShape[2];
+        }
+
+        public void control(double rotationAngle, double speed)
+        {
+
+            carShape.forward(speed);
+
+            carShape._angularVelocity += rotationAngle;
         }
     }
 }

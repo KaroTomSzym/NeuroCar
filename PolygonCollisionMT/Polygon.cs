@@ -66,7 +66,7 @@ namespace PolygonCollisionMT
 
         public abstract MyVector getForceVector(MyVector contactPoint);
         public abstract void actForce(MyVector contactPoint, MyVector forceVector);
-        public abstract void forward(MyVector velocity);
+        public abstract void forward(double speed);
 
         public abstract Polygon getClone();
     }

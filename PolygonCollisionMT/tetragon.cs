@@ -195,10 +195,10 @@ namespace PolygonCollisionMT
 
         }
 
-        public override void forward(MyVector velocity)
+        public override void forward(double speed)
         {
-            _velocity += velocity * 10;
-            _points += velocity;
+            //_velocity += velocity * 10;
+            //_points += velocity;
         }
 
         public override Polygon getClone()

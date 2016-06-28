@@ -78,6 +78,7 @@ namespace PolygonCollisionMT
         public override void shift()
         {
             _points = _points + _velocity;
+            _velocity *= 0.97;
         }
 
         public override void rotate()
@@ -193,10 +194,13 @@ namespace PolygonCollisionMT
             
         }
 
-        public override void forward(MyVector velocity)
+        public override void forward(double speed)
         {
-            _velocity += velocity*10;
-            _points += velocity;
+            MyVector frontVector = MyMath.normalizeVector(this[0] - (this[2] + this[1])*0.5);
+            frontVector *= speed;
+
+            _velocity += frontVector;
+            //_points += velocity;
         }
 
         public override Polygon getClone()

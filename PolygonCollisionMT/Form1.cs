@@ -49,11 +49,13 @@ namespace PolygonCollisionMT
 
             _polygonMng.setPolygonList(_road.getVisiblePolygons());
             _polygonsToErase = new List<Point[]>();
+            userCarControl1.setCar(_car);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             _canvas.Clear(Color.White);
+            _car.control(0.0, 0.8);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -95,7 +97,6 @@ namespace PolygonCollisionMT
             _road.addRandomPolygonToList(0, 300, _road.VisibleArea.CurrentAreaPosition, _road.VisibleArea.CurrentAreaPosition + 400);
             _polygonMng.movePolygons();
         }
-
 
         private void timer1_Tick(object sender, EventArgs e)
         {

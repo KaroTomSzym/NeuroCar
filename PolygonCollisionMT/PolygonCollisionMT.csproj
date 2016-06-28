@@ -63,6 +63,12 @@
     <Compile Include="Road.cs" />
     <Compile Include="Tetragon.cs" />
     <Compile Include="Triangle.cs" />
+    <Compile Include="UserCarControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserCarControl.Designer.cs">
+      <DependentUpon>UserCarControl.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -75,6 +81,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserCarControl.resx">
+      <DependentUpon>UserCarControl.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
