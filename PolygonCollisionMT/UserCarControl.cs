@@ -28,10 +28,9 @@ namespace PolygonCollisionMT
             _canvas = panel1.CreateGraphics();
         }
 
-
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left)
+            if(mouseDown)
             {
                 currentMousePosition = this.panel1.PointToClient(MousePosition);
                 int Xvalue = (currentMousePosition.X -mousePositionOnClick.X);

@@ -49,6 +49,7 @@ namespace PolygonCollisionMT
 
             _polygonMng.setPolygonList(_road.getVisiblePolygons());
             _polygonsToErase = new List<Point[]>();
+
             userCarControl1.setCar(_car);
         }
 
