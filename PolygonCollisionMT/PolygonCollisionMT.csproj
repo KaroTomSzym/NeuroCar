@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Area.cs" />
     <Compile Include="Car.cs" />
+    <Compile Include="FileComander.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -53,7 +54,9 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="MyMath.cs" />
+    <Compile Include="MyMatrix.cs" />
     <Compile Include="MyVector.cs" />
+    <Compile Include="NeuralNetwork.cs" />
     <Compile Include="PointVector.cs" />
     <Compile Include="Polygon.cs" />
     <Compile Include="PolygonManager.cs" />
