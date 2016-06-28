@@ -21,6 +21,7 @@ namespace PolygonCollisionMT
         //
         public MyVector lastForce;
         //
+
         public PolygonManager(int boundaryX, int boundaryY, Polygon car)
         {
             _polygons = new List<Polygon>();
@@ -32,6 +33,7 @@ namespace PolygonCollisionMT
             carPolygon = car;
             lastForce = new MyVector(0,0);
             //
+            
         }
 
         public void threadAction(object data)
@@ -96,6 +98,11 @@ namespace PolygonCollisionMT
             {
                 p = null;
             }
+            catch (IndexOutOfRangeException)
+            {
+                p = null;
+            }
+
             running = true;
             return p;
         }
